@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 
 @Slf4j
@@ -32,5 +33,32 @@ public class UserController {
     public ResponseEntity<UserDto> getUser(@PathVariable long id) {
         UserDto userById = userService.getUserById(id);
         return new ResponseEntity<>(userById, HttpStatus.OK);
+    }
+
+    @GetMapping("/all-user")
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        log.info("UserController::getAllUsers method");
+        List<UserDto> allUsers = userService.getAllUser();
+        return ResponseEntity.ok(allUsers);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+        log.info("UserController :: deleteUser method");
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/delete-all")
+    public ResponseEntity<Void> deleteAllUser(){
+        userService.deleteAllUser();
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+        UserDto updatedUser = userService.updateUser(id, userDto);
+        log.info("UserController :: updateUser method");
+        return ResponseEntity.ok(updatedUser);
     }
 }

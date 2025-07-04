@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -51,23 +52,35 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public UserDto updateUser(long id, UserDto userDto) {
-        return null;
+        User oldUser = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No User Exist with id: " + id));
+
+        oldUser.setName(userDto.getName());
+        oldUser.setEmail(userDto.getEmail());
+        oldUser.setPhone(userDto.getPhone());
+        oldUser.setAddress(userDto.getAddress());
+        //oldUser.setPassword(userDto.getPassword());
+        User updated = repository.save(oldUser);
+        log.info("user updated successfully");
+        return modelMapper.map(updated, UserDto.class);
     }
 
     @Override
     public List<UserDto> getAllUser() {
-        return null;
+        List<User> users = repository.findAll();
+        log.info("All user data sent successfully");
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     public void deleteUser(long id) {
-
+        log.info("One record deleted successfully");
+        repository.deleteById(id);
     }
-
     @Override
     public void deleteAllUser() {
-
+        repository.deleteAll();
     }
-
-
 }
