@@ -1,10 +1,7 @@
 package com.pmlfl.models;
+
 import jakarta.persistence.*;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,7 +9,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-@Table(name = "pmlUser")
+@Table(name = "pml_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,10 +1,10 @@
 package com.pmlfl.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.http.ResponseEntity;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,6 +16,8 @@ public class UserDto {
     private String email;
     private String phone;
     private String address;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
 
