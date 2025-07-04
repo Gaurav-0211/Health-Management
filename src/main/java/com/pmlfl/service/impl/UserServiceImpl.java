@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -71,7 +72,7 @@ public class UserServiceImpl implements UserService {
         log.info("All user data sent successfully");
         return users.stream()
                 .map(user -> modelMapper.map(user, UserDto.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -82,5 +83,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteAllUser() {
         repository.deleteAll();
+    }
+
+    @Override
+    public UserDto updateUserPatch(Long id, UserDto userDto) {
+        User user = repository.findById(id)
+                .orElseThrow(()-> new RuntimeException("User Not Exist"));
+        user.setEmail(userDto.getEmail());
+
+        User save = repository.save(user);
+        return modelMapper.map(save,UserDto.class);
     }
 }

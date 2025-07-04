@@ -2,6 +2,7 @@ package com.pmlfl.controller;
 
 
 import com.pmlfl.dto.UserDto;
+import com.pmlfl.models.User;
 import com.pmlfl.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
 @RestController
-@RequestMapping("/health-check")
+@RequestMapping("/users")
 public class UserController {
 
     private UserService userService;
@@ -60,5 +62,15 @@ public class UserController {
         UserDto updatedUser = userService.updateUser(id, userDto);
         log.info("UserController :: updateUser method");
         return ResponseEntity.ok(updatedUser);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<UserDto> updateUserPatch(@PathVariable Long id,@RequestBody UserDto userDto){
+        try {
+            UserDto updatedUser = userService.updateUserPatch(id, userDto);
+            return ResponseEntity.ok(updatedUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

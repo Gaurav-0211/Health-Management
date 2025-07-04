@@ -2,9 +2,11 @@ package com.pmlfl.service;
 
 
 import com.pmlfl.dto.UserDto;
+import com.pmlfl.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface UserService {
@@ -21,8 +23,5 @@ public interface UserService {
 
     void deleteAllUser();
 
-
-
-
-
+    UserDto updateUserPatch(Long id, UserDto userDto);
 }
